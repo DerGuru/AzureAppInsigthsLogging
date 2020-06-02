@@ -1,9 +1,0 @@
-C:\GIT\AzureAppInsigthsLogging\bin\Debug\netcoreapp3.1\AzureAppInsightsLogging.deps.json
-C:\GIT\AzureAppInsigthsLogging\bin\Debug\netcoreapp3.1\AzureAppInsightsLogging.dll
-C:\GIT\AzureAppInsigthsLogging\bin\Debug\netcoreapp3.1\AzureAppInsightsLogging.pdb
-C:\GIT\AzureAppInsigthsLogging\obj\Debug\netcoreapp3.1\AzureAppInsightsLogging.csprojAssemblyReference.cache
-C:\GIT\AzureAppInsigthsLogging\obj\Debug\netcoreapp3.1\AzureAppInsightsLogging.AssemblyInfoInputs.cache
-C:\GIT\AzureAppInsigthsLogging\obj\Debug\netcoreapp3.1\AzureAppInsightsLogging.AssemblyInfo.cs
-C:\GIT\AzureAppInsigthsLogging\obj\Debug\netcoreapp3.1\AzureAppInsightsLogging.csproj.CoreCompileInputs.cache
-C:\GIT\AzureAppInsigthsLogging\obj\Debug\netcoreapp3.1\AzureAppInsightsLogging.dll
-C:\GIT\AzureAppInsigthsLogging\obj\Debug\netcoreapp3.1\AzureAppInsightsLogging.pdb

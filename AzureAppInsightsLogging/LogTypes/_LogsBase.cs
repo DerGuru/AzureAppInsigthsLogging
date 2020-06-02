@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace AppInsights.Logging
 {
@@ -7,10 +9,13 @@ namespace AppInsights.Logging
         public static string UserIdEqualsUpn(string upn) => $"where {AppInsightQueryColumns.user_Id} =~ \"{upn}\"";
 
         public static AppInsightQuery<T> CreateQuery(AppInsightsCredentials apiKey, string query)
-            => new AppInsightQuery<T>(apiKey, $"{typeof(T).Name.ToLowerInvariant()} | {query}");
+            => new AppInsightQuery<T>(apiKey, $"{Decapitalize(typeof(T).Name)} | {query}");
 
         public static AppInsightQuery<T> CreateQuery(AppInsightsCredentials apiKey, TimeSpan ts, string query) 
-            => new AppInsightQuery<T>(apiKey, $"{typeof(T).Name.ToLowerInvariant()} | {query}", ts);
+            => new AppInsightQuery<T>(apiKey, $"{Decapitalize(typeof(T).Name)} | {query}", ts);
+
+        private static string Decapitalize(string name) => $"{name.First().ToString().ToLowerInvariant()}{new String(name.Skip(1).ToArray())}";
+        
         
         public DateTimeOffset Timestamp { get; set; }
         public CustomDimensions CustomDimensions { get; set; }
