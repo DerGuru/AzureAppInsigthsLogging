@@ -93,7 +93,7 @@ namespace AppInsights
                 {
                     try
                     {
-                        var req = new HttpRequestMessage(HttpMethod.Post, $"https://api.applicationinsights.io/v1/apps/{Credentials.ApplicationId}/query");
+                        var req = new HttpRequestMessage(HttpMethod.Post, $"https://api.applicationinsights.io/v1/apps/{Credentials.ApplicationId.ToUnSecureString()}/query");
                         req.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                         req.Headers.Add("x-api-key", Credentials.ApiKey.ToUnSecureString());
                         req.Content = new StringContent(JsonConvert.SerializeObject(this), Encoding.UTF8, "application/json");

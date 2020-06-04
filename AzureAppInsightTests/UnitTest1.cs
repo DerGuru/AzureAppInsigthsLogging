@@ -1,8 +1,11 @@
 using AppInsights;
 using AppInsights.Logging;
+using Microsoft.Azure.KeyVault;
+using Microsoft.Azure.Services.AppAuthentication;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -57,6 +60,14 @@ namespace AzureAppInsightTests
                     var test = row.CustomDimensions.DataAs<CustomAttributeBuilder>();
                 }
             }
+        }
+
+        public async static Task<AppInsightsCredentials> LoadFromKeyVaultAsync(string baseUrl, string secretName, string version)
+        {
+            AzureServiceTokenProvider azureServiceTokenProvider = new AzureServiceTokenProvider();
+            KeyVaultClient keyVaultClient = new KeyVaultClient(new KeyVaultClient.AuthenticationCallback(azureServiceTokenProvider.KeyVaultTokenCallback));
+            var secret = await keyVaultClient.GetSecretAsync(baseUrl, secretName, version);
+            return  JsonConvert.DeserializeObject<AppInsightsCredentials>(secret.Value);
         }
     }
 }
