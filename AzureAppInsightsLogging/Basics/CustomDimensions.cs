@@ -79,14 +79,7 @@ namespace AppInsights.Logging
         /// <typeparam name="T">Type of expected inner data</typeparam>
         /// <exception cref="TypeLoadException">Throws if types are not a match</exception>
         /// <returns>data</returns>
-        public T DataAs<T>() where T : class
-        {
-            var data = Data;
-            if (TypesAreMatching<T>(data))
-                return data as T;
-            else
-                throw new TypeLoadException($"{Type.FullName} is not of {typeof(T).FullName}!");
-        }
+        public T DataAs<T>() where T : class => JsonConvert.DeserializeObject<T>(this["Data"]);
 
         /// <summary>
         /// Is the DataType (derived) of this generic type

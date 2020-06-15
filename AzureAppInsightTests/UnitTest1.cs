@@ -18,13 +18,13 @@ namespace AzureAppInsightTests
     public class UnitTest1
     {
         [TestMethod]
-        public async Task GoodCase()
+        public void GoodCase()
         {
             using (StreamReader sr = new StreamReader("data.json"))
             {
                 var json = sr.ReadToEnd();
                 var tables = JsonConvert.DeserializeObject<AppInsightsResultBase<CustomEvents>>(json).Tables;
-                await foreach (var row in tables.First().Rows)
+                foreach (var row in tables.First().Rows())
                 {
                     var test = row.CustomDimensions.DataAs<string>();
                     Assert.AreEqual("testString", test);
@@ -33,13 +33,13 @@ namespace AzureAppInsightTests
         }
 
         [TestMethod]
-        public async Task BaseType()
+        public void BaseType()
         {
             using (StreamReader sr = new StreamReader("data.json"))
             {
                 var json = sr.ReadToEnd();
                 var tables = JsonConvert.DeserializeObject<AppInsightsResultBase<CustomEvents>>(json).Tables;
-                await foreach (var row in tables.First().Rows)
+                foreach (var row in tables.First().Rows())
                 {
                     var test = row.CustomDimensions.DataAs<object>();
                     Assert.AreEqual("testString", test.ToString());
@@ -49,25 +49,17 @@ namespace AzureAppInsightTests
 
         [TestMethod]
         [ExpectedException(typeof(TypeLoadException))]
-        public async Task WrongType()
+        public void WrongType()
         {
             using (StreamReader sr = new StreamReader("data.json"))
             {
                 var json = sr.ReadToEnd();
                 var tables = JsonConvert.DeserializeObject<AppInsightsResultBase<CustomEvents>>(json).Tables;
-                await foreach (var row in tables.First().Rows)
+                foreach (var row in tables.First().Rows())
                 {
                     var test = row.CustomDimensions.DataAs<CustomAttributeBuilder>();
                 }
             }
-        }
-
-        public async static Task<AppInsightsCredentials> LoadFromKeyVaultAsync(string baseUrl, string secretName, string version)
-        {
-            AzureServiceTokenProvider azureServiceTokenProvider = new AzureServiceTokenProvider();
-            KeyVaultClient keyVaultClient = new KeyVaultClient(new KeyVaultClient.AuthenticationCallback(azureServiceTokenProvider.KeyVaultTokenCallback));
-            var secret = await keyVaultClient.GetSecretAsync(baseUrl, secretName, version);
-            return  JsonConvert.DeserializeObject<AppInsightsCredentials>(secret.Value);
         }
     }
 }

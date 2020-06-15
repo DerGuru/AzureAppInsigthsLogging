@@ -1,17 +1,4 @@
-﻿// ***********************************************************************
-// Assembly         : EpLogAnalytics
-// Author           : JakofHe
-// Created          : 11-21-2019
-//
-// Last Modified By : JakofHe
-// Last Modified On : 11-21-2019
-// ***********************************************************************
-// <copyright file="LogAnalyticsQuery.cs" company="EpLogAnalytics">
-//     Copyright (c) . All rights reserved.
-// </copyright>
-// <summary></summary>
-// ***********************************************************************
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -50,34 +37,21 @@ namespace AppInsights
             QuerySpan = querySpan;
         }
 
-        /// <summary>
-        /// Gets or sets the query string.
-        /// </summary>
         [JsonProperty(PropertyName = "query")]  
         public string QueryString { get; private set; }
         
-        /// <summary>
-        /// Holds the credentials for the query
-        /// </summary>
         [JsonIgnore] 
         public AppInsightsCredentials Credentials { get; private set; }
 
-        /// <summary>
-        /// Gets or sets the query span.
-        /// </summary>
-        /// <value>The query span.</value>
         [JsonProperty(PropertyName = "timespan", NullValueHandling = NullValueHandling.Ignore)] 
         [JsonConverter(typeof(TimeSpanIsoConverter))] 
         public TimeSpan? QuerySpan { get; private set; } = null;
 
-        /// <summary>
-        /// Executes the query and returns the first (usually there is one) table from the result
-        /// </summary>
-        /// <returns>IEnumerable of the given type</returns>
-        public async Task<IAsyncEnumerable<QueryResult>> LoadFirstTable() 
+       
+        public async Task<IEnumerable<QueryResult>> LoadFirstTable() 
         {
             var tables = await Post();
-            return tables?.FirstOrDefault()?.Rows;
+            return tables?.FirstOrDefault()?.Rows();
         }
 
         /// <summary>

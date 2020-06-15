@@ -19,6 +19,7 @@ namespace AppInsights.Logging
 
         public void Dispose()
         {
+            _tc = null;
         }
     }
 

@@ -10,10 +10,7 @@ namespace AppInsights.Logging
 
     public class CustomDimensions<T> : CustomDimensions
     {
-        /// <summary>
-        /// CopyConstructor
-        /// </summary>
-        /// <param name="other"></param>
+        
         public CustomDimensions(CustomDimensions other) : base(other)
         {
             if (!TypesAreMatching<T>())
@@ -50,9 +47,7 @@ namespace AppInsights.Logging
 
         private Lazy<T> _data;
 
-        /// <summary>
-        /// Gets or sets the Data for this CustomDimensions
-        /// </summary>
+       
         public new T Data
         {
             get => _data.Value;

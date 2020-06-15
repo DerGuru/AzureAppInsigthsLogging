@@ -1,17 +1,4 @@
-﻿// ***********************************************************************
-// Assembly         : EpLogAnalytics
-// Author           : JakofHe
-// Created          : 11-21-2019
-//
-// Last Modified By : JakofHe
-// Last Modified On : 11-21-2019
-// ***********************************************************************
-// <copyright file="BaseClass.cs" company="EpLogAnalytics">
-//     Copyright (c) . All rights reserved.
-// </copyright>
-// <summary></summary>
-// ***********************************************************************
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -68,20 +55,17 @@ namespace AppInsights
             /// Gets the rows.
             /// </summary>
             /// <value>The rows.</value>
-            [JsonIgnore]
-            public IAsyncEnumerable<T> Rows => ConvertRawRows();
-
-#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
-            private async IAsyncEnumerable<T> ConvertRawRows()
-#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
+            public IEnumerable<T> Rows() 
             {
                 var skeleton = CreateJsonSkeleton();
 
+                LinkedList<T> ll = new LinkedList<T>();
                 foreach (var rawRow in RawRows)
                 {
                     T t =  Deserialize(skeleton, rawRow);
-                    yield return t;
+                    ll.AddLast(t);
                 }
+                return ll;
             }
             private List<ColumnsDescription> CreateJsonSkeleton()
             {
