@@ -7,54 +7,22 @@ using System.Threading.Tasks;
 
 namespace AppInsights
 {
-    /// <summary>
-    /// Class LogAnalyticsBase.
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
     public class AppInsightsResultBase<T> where T : new()
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="AppInsightsResultBase{T}"/> class.
-        /// </summary>
         public AppInsightsResultBase() { }
 
-        /// <summary>
-        /// Gets or sets the tables.
-        /// </summary>
-        /// <value>The tables.</value>
-        [JsonProperty(PropertyName = "tables")]
-        public List<Table> Tables { get; set; }
+        [JsonProperty(PropertyName = "tables")] public List<Table> Tables { get; set; }
 
-
-        /// <summary>
-        /// Class Table.
-        /// </summary>
         public class Table
         {
-            /// <summary>
-            /// Gets or sets the name of the table.
-            /// </summary>
-            /// <value>The name of the table.</value>
             [JsonProperty(PropertyName = "name")]
             public string TableName { get; set; }
-            /// <summary>
-            /// Gets or sets the columns.
-            /// </summary>
-            /// <value>The columns.</value>
             [JsonProperty(PropertyName = "columns")]
             public List<ColumnsDescription> Columns { get; set; }
 
-            /// <summary>
-            /// Gets or sets the raw rows.
-            /// </summary>
-            /// <value>The raw rows.</value>
             [JsonProperty(PropertyName = "rows")]
             public List<List<string>> RawRows { get; set; }
 
-            /// <summary>
-            /// Gets the rows.
-            /// </summary>
-            /// <value>The rows.</value>
             public IEnumerable<T> Rows() 
             {
                 var skeleton = CreateJsonSkeleton();
@@ -86,7 +54,7 @@ namespace AppInsights
             {
                 var sb = new StringBuilder();
                 var columsAndValues = skeleton
-                    .Zip(values)
+                    .Zip(values,  (x,y) => (x,y))
                     .Select(CreateJsonEntry);
 
                 var innerJson = sb.AppendJoin(commaAndNewLine, columsAndValues);
@@ -98,27 +66,11 @@ namespace AppInsights
                 => $"\"{x.First.Name}\" : {x.First.Encapsulation}{x.Second ?? "null"}{x.First.Encapsulation}";
         }
 
-        /// <summary>
-        /// Class ColumDescription.
-        /// </summary>
         public class ColumnsDescription
         {
-            /// <summary>
-            /// Gets or sets the name.
-            /// </summary>
-            /// <value>The name.</value>
-            [JsonProperty(PropertyName = "name")]
-            public string Name { get; set; }
-            /// <summary>
-            /// Gets or sets the type.
-            /// </summary>
-            /// <value>The type.</value>
-            [JsonProperty(PropertyName = "type")]
-            public string Type { get; set; }
+            [JsonProperty(PropertyName = "name")] public string Name { get; set; }
+            [JsonProperty(PropertyName = "type")] public string Type { get; set; }
 
-            /// <summary>
-            /// Encapsulation for the datatype, derived from the datatype
-            /// </summary>
             public String Encapsulation
             {
                 get
@@ -143,6 +95,4 @@ namespace AppInsights
 
         }
     }
-
-
 }
