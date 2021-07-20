@@ -28,10 +28,18 @@ namespace AppInsights
                 var skeleton = CreateJsonSkeleton();
 
                 LinkedList<T> ll = new LinkedList<T>();
+                
                 foreach (var rawRow in RawRows)
                 {
-                    T t =  Deserialize(skeleton, rawRow);
-                    ll.AddLast(t);
+                    try
+                    {
+                        T t = Deserialize(skeleton, rawRow);
+                        ll.AddLast(t);
+                    }
+                    catch (Exception ex)
+                    {
+                        var s = ex.ToString();
+                    }
                 }
                 return ll;
             }
@@ -63,7 +71,7 @@ namespace AppInsights
             }
 
             private static string CreateJsonEntry((ColumnsDescription First, string Second) x)
-                => $"\"{x.First.Name}\" : {x.First.Encapsulation}{x.Second ?? "null"}{x.First.Encapsulation}";
+                => $"\"{x.First.Name}\" : {x.First.Encapsulation}{x.Second?.Replace(Environment.NewLine, "\\r\\n") ?? "null"}{x.First.Encapsulation}";
         }
 
         public class ColumnsDescription
