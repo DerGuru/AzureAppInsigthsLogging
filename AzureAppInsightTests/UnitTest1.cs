@@ -1,16 +1,11 @@
 using AppInsights;
 using AppInsights.Logging;
-using Microsoft.Azure.KeyVault;
-using Microsoft.Azure.Services.AppAuthentication;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Reflection.Emit;
-using System.Threading.Tasks;
 
 namespace AzureAppInsightTests
 {
@@ -48,7 +43,7 @@ namespace AzureAppInsightTests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(TypeLoadException))]
+        [ExpectedException(typeof(JsonSerializationException))]
         public void WrongType()
         {
             using (StreamReader sr = new StreamReader("data.json"))
